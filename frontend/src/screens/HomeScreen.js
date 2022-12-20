@@ -4,7 +4,7 @@ import { Row, Col } from "react-bootstrap";
 import Product from "../components/Product";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { listProducts } from "../features/products/productSlice";
+import { listProducts, reset } from "../features/products/productSlice";
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
@@ -15,6 +15,7 @@ const HomeScreen = () => {
 
   useEffect(() => {
     dispatch(listProducts());
+    dispatch(reset());
   }, [isError, message, dispatch]);
 
   return (
