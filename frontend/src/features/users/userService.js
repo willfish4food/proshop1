@@ -24,6 +24,8 @@ const login = async (userData) => {
 // Logout user
 const logout = () => {
   localStorage.removeItem("user");
+  localStorage.removeItem("cartItems");
+  document.location.href = "/login";
 };
 
 const getUserProfile = async (user, token) => {

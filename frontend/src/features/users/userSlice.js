@@ -2,10 +2,11 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import userService from "./userService";
 
 // Get user from localStorage
-const user = JSON.parse(localStorage.getItem("user"));
+const userInfo = JSON.parse(localStorage.getItem("user"));
 
 const initialState = {
-  user: user ? user : null,
+  users: [],
+  userInfo: userInfo ? userInfo : null,
   isError: false,
   isSuccess: false,
   isLoading: false,
@@ -47,7 +48,7 @@ export const getUserProfile = createAsyncThunk(
   "user/getUserProfile",
   async (user, thunkAPI) => {
     try {
-      const token = thunkAPI.getState().user.user.token;
+      const token = thunkAPI.getState().user.userInfo.token;
       return await userService.getUserProfile(user, token);
     } catch (error) {
       const message =
@@ -65,7 +66,7 @@ export const updateUserProfile = createAsyncThunk(
   "user/updateUserProfile",
   async (user, thunkAPI) => {
     try {
-      const token = thunkAPI.getState().user.user.token;
+      const token = thunkAPI.getState().user.userInfo.token;
       return await userService.updateUserProfile(user, token);
     } catch (error) {
       const message =
@@ -83,7 +84,7 @@ export const listUsers = createAsyncThunk(
   "user/listUsers",
   async (thunkAPI) => {
     try {
-      const token = thunkAPI.getState().user.user.token;
+      const token = thunkAPI.getState().user.userInfo.token;
       return await userService.listUsers(token);
     } catch (error) {
       const message =
@@ -101,7 +102,7 @@ export const deleteUser = createAsyncThunk(
   "user/deleteUser",
   async (id, thunkAPI) => {
     try {
-      const token = thunkAPI.getState().user.user.token;
+      const token = thunkAPI.getState().user.userInfo.token;
       return await userService.deleteUsers(id, token);
     } catch (error) {
       const message =
@@ -119,7 +120,7 @@ export const updateUser = createAsyncThunk(
   "user/updateUser",
   async (user, thunkAPI) => {
     try {
-      const token = thunkAPI.getState().user.user.token;
+      const token = thunkAPI.getState().user.userInfo.token;
       return await userService.updateUser(user, token);
     } catch (error) {
       const message =
@@ -142,6 +143,7 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     reset: (state) => {
+      state.users = [];
       state.isLoading = false;
       state.isSuccess = false;
       state.isError = false;
@@ -156,13 +158,13 @@ export const userSlice = createSlice({
       .addCase(register.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.user = action.payload;
+        state.userInfo = action.payload;
       })
       .addCase(register.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
-        state.user = null;
+        state.userInfo = null;
       })
       .addCase(login.pending, (state) => {
         state.isLoading = true;
@@ -170,16 +172,16 @@ export const userSlice = createSlice({
       .addCase(login.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.user = action.payload;
+        state.userInfo = action.payload;
       })
       .addCase(login.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
-        state.user = null;
+        state.userInfo = null;
       })
       .addCase(logout.fulfilled, (state) => {
-        state.user = null;
+        state.userInfo = null;
       })
       .addCase(getUserProfile.pending, (state) => {
         state.isLoading = true;
@@ -187,13 +189,13 @@ export const userSlice = createSlice({
       .addCase(getUserProfile.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.user = action.payload;
+        state.userInfo = action.payload;
       })
       .addCase(getUserProfile.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
-        state.user = null;
+        state.userInfo = null;
       })
       .addCase(updateUserProfile.pending, (state) => {
         state.isLoading = true;
@@ -201,13 +203,13 @@ export const userSlice = createSlice({
       .addCase(updateUserProfile.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.user = action.payload;
+        state.userInfo = action.payload;
       })
       .addCase(updateUserProfile.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
-        state.user = null;
+        state.userInfo = null;
       })
       .addCase(listUsers.pending, (state) => {
         state.isLoading = true;

@@ -13,7 +13,7 @@ const initialState = {
 // Register product
 export const listProducts = createAsyncThunk(
   "product/listProducts",
-  async (thunkAPI) => {
+  async (_, thunkAPI) => {
     try {
       return await productService.listProducts();
     } catch (error) {
@@ -124,7 +124,7 @@ export const createProductReview = createAsyncThunk(
 
 export const listTopProducts = createAsyncThunk(
   "product/listTopProducts",
-  async (thunkAPI) => {
+  async (_, thunkAPI) => {
     try {
       return await productService.listTopProducts();
     } catch (error) {

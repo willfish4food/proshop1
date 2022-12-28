@@ -4,19 +4,23 @@ import axios from "axios";
 const addCartItem = async (id, qty) => {
   const { data } = await axios.get(`/api/products/${id}`);
 
-  const item = {
-    product: data._id,
+  return {
+    product: id,
     name: data.name,
     image: data.image,
     price: data.price,
     countInStock: data.countInStock,
+    qty,
   };
+};
 
-  return { ...item, qty };
+const removeCartItem = async (id) => {
+  return id;
 };
 
 const cartService = {
   addCartItem,
+  removeCartItem,
 };
 
 export default cartService;

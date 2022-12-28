@@ -5,18 +5,26 @@ import Product from "../components/Product";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { listProducts, reset } from "../features/products/productSlice";
+import { useNavigate } from "react-router-dom";
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
+  const nav = useNavigate();
 
-  const { isLoading, isError, message, products } = useSelector(
-    (state) => state.products
+  const { userInfo } = useSelector((state) => state.user);
+  const { products, isLoading, isError, message } = useSelector(
+    (state) => state.product
   );
 
   useEffect(() => {
+    if (!userInfo) {
+      nav("/login");
+    }
     dispatch(listProducts());
-    dispatch(reset());
-  }, [isError, message, dispatch]);
+    /* return () => {
+      dispatch(reset());
+    }; */
+  }, [userInfo, nav, dispatch]);
 
   return (
     <>

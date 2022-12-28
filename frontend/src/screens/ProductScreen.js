@@ -19,7 +19,7 @@ const ProductSreen = () => {
   const dispatch = useDispatch();
   const nav = useNavigate();
   const { id } = useParams();
-  const product = useSelector((state) => state.products.product);
+  const product = useSelector((state) => state.product.product);
 
   /* const back = () => {
     nav(-1);
